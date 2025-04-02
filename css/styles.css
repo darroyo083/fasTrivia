@@ -1,0 +1,201 @@
+:root {
+    color-scheme: light dark;
+    font-size: 1.4rem;
+}
+
+nav {
+    background-color: rgba(15, 183, 255, 0.267);
+    text-align: center;
+    padding: 2%;
+    font-size: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.578);
+}
+
+footer {
+    background-color: rgba(15, 183, 255, 0.267);
+    text-align: center;
+    padding: 2%;
+    font-size: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.578);
+    position: sticky;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 100vh;
+}
+
+main {
+    flex-grow: 1;
+    align-content: center;
+    padding: 20px 0;
+}
+
+#translateBtn {
+    margin: 0 auto;
+    padding: 1%;
+    top: 18px;
+    right: 0px;
+    position: fixed;
+    z-index: 100;
+}
+
+#question-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+div h2 {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 0;
+}
+
+li {
+    background-color: rgba(14, 183, 255, 0.267);
+    margin: 1dvh;
+    padding: 1dvh;
+    border-radius: 1dvh;
+    list-style: none;
+    text-align: center;
+}
+
+.opts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/*  botones de opciones */
+.opts button {
+    border-width: 0px;
+    width: 90%;
+    padding: 3%;
+    margin: 3%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+/* cambios cuando el boton esta deshabilitado */
+.opts button:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: black;
+}
+
+/* colores cuando la respuesta es correcta o incorrecta */
+button.correct {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+button.incorrect {
+    background-color: #F44336 !important;
+    color: white !important;
+}
+
+/* colores para cada opt */
+button.option1 {
+    background-color: rgb(97, 131, 255);
+}
+
+button.option2 {
+    background-color: rgb(97, 131, 255);
+}
+
+p {
+    text-align: center;
+}
+
+button.option3 {
+    background-color: rgb(97, 131, 255);
+}
+
+button.option4 {
+    background-color: rgb(97, 131, 255);
+}
+
+button.option1:hover, button.option2:hover,
+button.option3:hover, button.option4:hover {
+	background-color: rgb(74, 180, 218);
+	transition: .5s ease-in-out;
+	transform: scale(1.1);
+}
+
+.question-counter {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#navigation-container {
+    text-align: center;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+#next-button, #restart-button {
+    background-color: rgb(97, 131, 255);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* boton siguiente deshabilitado */
+#next-button:disabled, #restart-button:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* hover botones deshabilitados*/
+#next-button:not(:disabled):hover, #restart-button:not(:disabled):hover {
+    background-color: rgb(70, 110, 255);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* texto carga */
+#loading-translation {
+    text-align: center;
+    color: rgb(97, 131, 255);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* tablet - pc */
+@media screen and (min-width: 1024px) {
+    .opts {
+        transition: 1s ease-in-out;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    div h2 {
+        width: 80%;
+        font-size: 1.5rem;
+    }
+    
+    #question-container {
+        padding: 30px;
+    }
+}
+
+nav span a {
+	text-decoration: none;
+	color: light-dark(black, white);
+}
