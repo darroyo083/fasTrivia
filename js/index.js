@@ -12,6 +12,13 @@ function footer() {
     footer.appendChild(divFooter);
 }
 
+// decodificar
+function decodeHTML(html) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 let triviaQuestions = [];
 let currentQuestionIndex = 0;
 let selectedAnswer = false;
@@ -64,9 +71,9 @@ function displayQuestion(index) {
     selectedAnswer = false;
     
     const questionData = triviaQuestions[index];
-    const questionText = questionData.question;
-    const correctAnswer = questionData.correct_answer;
-    const incorrectAnswers = questionData.incorrect_answers;
+    const questionText = decodeHTML(questionData.question);
+    const correctAnswer = decodeHTML(questionData.correct_answer);
+    const incorrectAnswers = questionData.incorrect_answers.map(answer => decodeHTML(answer));
     
     const questionContainer = document.getElementById("question-container");
     questionContainer.innerHTML = '';
@@ -156,7 +163,7 @@ function updateNavigationButtons() {
         
         // boton borrar puntuacion
         const clearButton = document.createElement("button");
-        clearButton.innerText = "Delete score";
+        clearButton.innerText = "Delete scores";
         clearButton.id = "clear-button";
         
         clearButton.addEventListener("click", () => {
