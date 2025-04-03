@@ -1,12 +1,12 @@
 :root {
     color-scheme: light dark;
-    font-size: 1.4rem;
+    font-size: 1rem;
 }
 
 nav {
     background-color: rgba(15, 183, 255, 0.267);
     text-align: center;
-    padding: 2%;
+    /* padding: 2%; */
     font-size: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.578);
 }
@@ -14,7 +14,7 @@ nav {
 footer {
     background-color: rgba(15, 183, 255, 0.267);
     text-align: center;
-    padding: 2%;
+    /* padding: 2%; */
     font-size: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.578);
     position: sticky;
@@ -43,7 +43,7 @@ main {
 }
 
 #question-container {
-    max-width: 800px;
+    /* max-width: 800px; */
     margin: 0 auto;
     padding: 15px;
 }
@@ -55,6 +55,14 @@ div h2 {
     padding: 10px 0;
 }
 
+ul {
+    margin-left: -40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 li {
     background-color: rgba(14, 183, 255, 0.267);
     margin: 1dvh;
@@ -62,6 +70,7 @@ li {
     border-radius: 1dvh;
     list-style: none;
     text-align: center;
+    width: 50%;
 }
 
 .opts {
@@ -124,12 +133,7 @@ button.option4 {
     background-color: rgb(97, 131, 255);
 }
 
-button.option1:hover, button.option2:hover,
-button.option3:hover, button.option4:hover {
-	background-color: rgb(74, 180, 218);
-	transition: .5s ease-in-out;
-	transform: scale(1.1);
-}
+
 
 .question-counter {
     text-align: center;
@@ -139,11 +143,13 @@ button.option3:hover, button.option4:hover {
 
 #navigation-container {
     text-align: center;
-    margin-top: 30px;
-    padding: 10px;
+    /* margin-top: 30px;
+    padding: 10px; */
 }
 
-#next-button, #restart-button {
+#next-button,
+#restart-button,
+#clear-button {
     background-color: rgb(97, 131, 255);
     color: white;
     border: none;
@@ -152,10 +158,12 @@ button.option3:hover, button.option4:hover {
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin: 1%;
 }
 
 /* boton siguiente deshabilitado */
-#next-button:disabled, #restart-button:disabled {
+#next-button:disabled,
+#restart-button:disabled {
     background-color: #cccccc !important;
     color: #666666 !important;
     cursor: not-allowed;
@@ -163,7 +171,8 @@ button.option3:hover, button.option4:hover {
 }
 
 /* hover botones deshabilitados*/
-#next-button:not(:disabled):hover, #restart-button:not(:disabled):hover {
+#next-button:not(:disabled):hover,
+#restart-button:not(:disabled):hover {
     background-color: rgb(70, 110, 255);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -184,18 +193,27 @@ button.option3:hover, button.option4:hover {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     div h2 {
         width: 80%;
         font-size: 1.5rem;
     }
-    
+
     #question-container {
         padding: 30px;
+    }
+
+    button.option1:hover,
+    button.option2:hover,
+    button.option3:hover,
+    button.option4:hover {
+        background-color: rgb(74, 180, 218);
+        transition: .5s ease-in-out;
+        transform: scale(1.1);
     }
 }
 
 nav span a {
-	text-decoration: none;
-	color: light-dark(black, white);
+    text-decoration: none;
+    color: light-dark(black, white);
 }

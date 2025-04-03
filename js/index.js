@@ -15,15 +15,18 @@ function footer() {
 let triviaQuestions = [];
 let currentQuestionIndex = 0;
 let selectedAnswer = false;
+let correctAnswers = 0;
 
 async function initializeTrivia() {
-    const numberOfQuestions = 10;
+    const numberOfQuestions = 3;
     const URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple&category=18`;
     const main = document.querySelector("main");
     
     const translateBtn = document.getElementById("translateBtn");
     main.innerHTML = '';
     main.appendChild(translateBtn);
+    
+    showLastScore(main);
     
     const questionContainer = document.createElement("div");
     questionContainer.id = "question-container";
@@ -42,12 +45,12 @@ async function initializeTrivia() {
         triviaQuestions = data.results;
         
         if (triviaQuestions.length > 0) {
+            correctAnswers = 0;
             displayQuestion(0);
         } else {
             questionContainer.innerHTML = "<p>Try again later</p>";
         }
     } catch (error) {
-        console.error("No se ha podido obtener los datos", error);
         questionContainer.innerHTML = "<p>Try again later.</p>";
     }
 }
@@ -101,6 +104,7 @@ function displayQuestion(index) {
             
             if (button.dataset.correct === "true") {
                 button.classList.add("correct");
+                correctAnswers++;
             } else {
                 button.classList.add("incorrect");
                 
@@ -110,6 +114,11 @@ function displayQuestion(index) {
                     }
                 });
             }
+            
+            if (currentQuestionIndex === triviaQuestions.length - 1) {
+                saveScore();
+            }
+            
             updateNavigationButtons();
         });
         optionsContainer.appendChild(button);
@@ -138,14 +147,25 @@ function updateNavigationButtons() {
         navigationContainer.appendChild(nextButton);
     } else if (selectedAnswer) {
         const restartButton = document.createElement("button");
-        restartButton.innerText = "Jugar de nuevo";
+        restartButton.innerText = "Play again";
         restartButton.id = "restart-button";
         
         restartButton.addEventListener("click", () => {
             initializeTrivia();
         });
         
+        // boton borrar puntuacion
+        const clearButton = document.createElement("button");
+        clearButton.innerText = "Delete score";
+        clearButton.id = "clear-button";
+        
+        clearButton.addEventListener("click", () => {
+            localStorage.removeItem("triviaData");
+            initializeTrivia();
+        });
+        
         navigationContainer.appendChild(restartButton);
+        navigationContainer.appendChild(clearButton);
     }
 }
 
@@ -194,9 +214,67 @@ document.getElementById("translateBtn").addEventListener("click", async () => {
     }
     
     document.getElementById("loading-translation").remove();
-    console.log("Traducción completada");
 });
 
-function localStorage(){
+// localstorage
+function saveScore() {
+    const scoreData = {
+        correct: correctAnswers,
+        total: triviaQuestions.length,
+        percentage: Math.round((correctAnswers / triviaQuestions.length) * 100)
+    };
     
+    let allScores = [];
+    const savedData = localStorage.getItem("triviaData");
+    
+    if (savedData) {
+        allScores = JSON.parse(savedData);
+    }
+    
+    allScores.push(scoreData);
+    
+    if (allScores.length > 3) {
+        allScores = allScores.slice(-3);
+    }
+    
+    localStorage.setItem("triviaData", JSON.stringify(allScores));
+    
+}
+
+function showLastScore(container) {
+    const savedData = localStorage.getItem("triviaData");
+    
+    if (savedData) {
+        const allScores = JSON.parse(savedData);
+        
+        if (allScores.length > 0) {
+            const scoreElement = document.createElement("div");
+            scoreElement.className = "score-info";
+            
+            const lastScore = allScores[allScores.length - 1];
+            scoreElement.innerHTML = `
+                <p>Last score: ${lastScore.correct}/${lastScore.total} (${lastScore.percentage}%)</p>
+            `;
+            
+            if (allScores.length > 1) {
+                const historialElement = document.createElement("div");
+                historialElement.className = "historial";
+                historialElement.innerHTML = "<p>Score history:</p>";
+                
+                const lista = document.createElement("ul");
+                
+                for (let i = allScores.length - 1; i >= 0; i--) {
+                    const score = allScores[i];
+                    const item = document.createElement("li");
+                    item.innerText = `${score.correct}/${score.total} (${score.percentage}%)`;
+                    lista.appendChild(item);
+                }
+                
+                historialElement.appendChild(lista);
+                scoreElement.appendChild(historialElement);
+            }
+            
+            container.appendChild(scoreElement);
+        }
+    }
 }
