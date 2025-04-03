@@ -1,10 +1,8 @@
-// Obtener las puntuaciones del localStorage
 function getScores() {
     const savedData = localStorage.getItem("triviaData");
     return savedData ? JSON.parse(savedData) : [];
 }
 
-// Guardar puntuación en localStorage
 function saveScore(scoreData) {
     let allScores = getScores();
     
@@ -17,7 +15,6 @@ function saveScore(scoreData) {
     localStorage.setItem("triviaData", JSON.stringify(allScores));
 }
 
-// Borrar puntuaciones
 function clearScores() {
     localStorage.removeItem("triviaData");
     return [];
