@@ -1,3 +1,6 @@
+import { decodeHTML } from "./decodeHTML.js";
+import { translateText } from "./translate.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     footer();
     
@@ -12,12 +15,6 @@ function footer() {
     footer.appendChild(divFooter);
 }
 
-// decodificar
-function decodeHTML(html) {
-    const txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-}
 
 let triviaQuestions = [];
 let currentQuestionIndex = 0;
@@ -25,8 +22,8 @@ let selectedAnswer = false;
 let correctAnswers = 0;
 
 async function initializeTrivia() {
-    const numberOfQuestions = 3;
-    const URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple&category=18`;
+    const numberOfQuestions = 5;
+    const URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple`; // &category=18
     const main = document.querySelector("main");
     
     const translateBtn = document.getElementById("translateBtn");
@@ -91,6 +88,7 @@ function displayQuestion(index) {
     const optionsContainer = document.createElement("div");
     optionsContainer.className = "opts";
     
+    // desordenar
     const answers = [correctAnswer, ...incorrectAnswers].sort(() => Math.random() - 0.5);
     
     const colors = ['option1', 'option2', 'option3', 'option4'];
@@ -176,52 +174,6 @@ function updateNavigationButtons() {
     }
 }
 
-// traducir usando flossboxin
-async function translateText(text) {
-    const url = "https://translate.flossboxin.org.in/translate";
-
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                q: text,
-                source: "en",
-                target: "es",
-                format: "text"
-            })
-        });
-
-        const data = await response.json();
-        return data.translatedText || text;
-    } catch (error) {
-        console.error("Error al traducir:", error);
-        return text;
-    }
-}
-
-document.getElementById("translateBtn").addEventListener("click", async () => {
-    const h2Elements = document.querySelectorAll("h2");
-    const buttonElements = document.querySelectorAll(".opts button");
-    
-    const questionContainer = document.getElementById("question-container");
-    const loadingTranslation = document.createElement("p");
-    loadingTranslation.innerText = "Traduciendo...";
-    loadingTranslation.id = "loading-translation";
-    questionContainer.appendChild(loadingTranslation);
-    
-    for (let h2 of h2Elements) {
-        h2.innerText = await translateText(h2.dataset.original);
-    }
-    
-    for (let button of buttonElements) {
-        button.innerText = await translateText(button.dataset.original);
-    }
-    
-    document.getElementById("loading-translation").remove();
-});
 
 // localstorage
 function saveScore() {
